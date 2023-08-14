@@ -3,9 +3,9 @@ import Config
 # Configure your database
 config :be_exercise, BeExercise.Repo,
   username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "be_exercise_dev",
+  password: "bexercise2023@",
+  hostname: "db.sbttqkzhpegmzerwuzdf.supabase.co",
+  database: "postgres",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
