@@ -18,7 +18,8 @@ config :be_exercise, BeExerciseWeb.Endpoint,
     layout: false
   ],
   pubsub_server: BeExercise.PubSub,
-  live_view: [signing_salt: "hBsN9Drq"]
+  live_view: [signing_salt: "hBsN9Drq"],
+  server: true
 
 # Configures Elixir's Logger
 config :logger, :console,
