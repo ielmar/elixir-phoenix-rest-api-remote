@@ -6,11 +6,11 @@ defmodule BeExercise.Repo.Migrations.CreateSalaries do
       add :amount, :decimal
       add :currency, :string
       add :active, :boolean, default: false, null: false
-      add :user_id, references(:users, on_delete: :nothing)
+      add :user_id, references(:users)
 
-      timestamps()
     end
 
     create index(:salaries, [:user_id])
+
   end
 end
