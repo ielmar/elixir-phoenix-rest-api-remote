@@ -1,14 +1,13 @@
 defmodule BeExercise.Finances.Salary do
   use Ecto.Schema
   import Ecto.Changeset
+  alias BeExercise.Accounts.User
 
   schema "salaries" do
     field :active, :boolean, default: false
     field :currency, :string
     field :amount, :decimal
-    field :user_id, :id
-
-    timestamps()
+    belongs_to :user, User
   end
 
   @doc false

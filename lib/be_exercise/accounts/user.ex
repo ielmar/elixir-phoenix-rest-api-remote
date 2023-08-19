@@ -4,8 +4,7 @@ defmodule BeExercise.Accounts.User do
 
   schema "users" do
     field :name, :string
-
-    timestamps()
+    has_many :salaries, BeExercise.Finances.Salary
   end
 
   @doc false
