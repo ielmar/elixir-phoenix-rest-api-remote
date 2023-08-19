@@ -21,10 +21,9 @@ end
 feed_count = 20000
 currencies_data = ["USD", "EUR", "JPY", "GBP", "CAD", "AUD", "CHF", "CNY", "SEK", "NZD"]
 
-names = File.read!("priv/data/names.txt")
-|> String.split("\n")
+names = BEChallengex.list_names()
 
-Enum.map(0..feed_count, fn _ ->
+Enum.map(1..feed_count, fn _ ->
   user = User.changeset(%User{}, %{name: Enum.random(names)})
   |> Repo.insert!()
 
