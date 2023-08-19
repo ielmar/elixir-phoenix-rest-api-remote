@@ -18,7 +18,7 @@ for [User, Salary] <- [User, Salary] do
   Repo.delete_all(Salary)
 end
 
-feed_count = 200
+feed_count = 20000
 currencies_data = ["USD", "EUR", "JPY", "GBP", "CAD", "AUD", "CHF", "CNY", "SEK", "NZD"]
 
 names = File.read!("priv/data/names.txt")
