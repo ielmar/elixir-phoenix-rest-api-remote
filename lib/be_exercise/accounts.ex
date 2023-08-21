@@ -18,7 +18,13 @@ defmodule BeExercise.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    query = from u in User,
+      join: s in assoc(u, :salaries),
+      where: s.active == true,
+      select: %{user: u, active_salary: s},
+      order_by: [asc: u.id]
+    query
+    |> Repo.all()
   end
 
   @doc """
