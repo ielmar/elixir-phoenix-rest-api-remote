@@ -23,4 +23,8 @@ defmodule BeExerciseWeb.UserJSON do
       currency: user.currency
     }
   end
+
+  def emails_sent(_assigns) do
+    :ok
+  end
 end
