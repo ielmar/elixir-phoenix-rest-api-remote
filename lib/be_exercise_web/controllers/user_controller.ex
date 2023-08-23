@@ -7,8 +7,14 @@ defmodule BeExerciseWeb.UserController do
   action_fallback BeExerciseWeb.FallbackController
 
   def index(conn, params) do
-    users_with_salaries = Accounts.get_users_with_active_salaries(params["filter"], params["order_by"])
+    users_with_salaries = Accounts.get_users_list_with_salaries(params["filter"], params["order_by"])
     render(conn, :index, users_with_salaries: users_with_salaries)
+  end
+
+  def invite_users(conn, _params) do
+    users_with_active_salaries = Accounts.get_users_with_active_salaries()
+    for(%{user: user} <- users_with_active_salaries, do: BEChallengex.send_email(%{name: user.name}))
+    render(conn, :emails_sent)
   end
 
   def create(conn, %{"user" => user_params}) do
