@@ -22,7 +22,23 @@ defmodule BeExercise.Accounts do
     Repo.all(User)
   end
 
-  def get_users_with_active_salaries(filter_name \\ nil, order_by \\ nil) do
+  def get_users_with_active_salaries do
+    active_subquery =
+      from s in Salary,
+      where: s.active == true,
+      select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+
+    query =
+      from u in User,
+      left_join: s in subquery(active_subquery),
+      on: u.id == s.user_id,
+      order_by: [asc: :id],
+      select: %{user: u, salary: s.salary, currency: s.currency}
+
+    Repo.all(query)
+  end
+
+  def get_users_list_with_salaries(filter_name \\ nil, order_by \\ nil) do
     dynamic_order_by = if order_by == "name" do
       String.to_atom("name")
     else
