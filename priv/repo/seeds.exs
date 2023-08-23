@@ -11,7 +11,6 @@
 # and so on) as they will fail if something goes wrong.
 
 alias BeExercise.{Repo, Accounts.User, Finances.Salary}
-# alias Ecto.Multi
 
 for [User, Salary] <- [User, Salary] do
   Repo.delete_all(User)
@@ -34,5 +33,3 @@ Enum.map(1..feed_count, fn _ ->
   |> Repo.insert!()
 
 end)
-
-IO.puts("Seeding complete!")

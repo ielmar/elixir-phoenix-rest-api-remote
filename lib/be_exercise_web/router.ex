@@ -21,9 +21,12 @@ defmodule BeExerciseWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", BeExerciseWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", BeExerciseWeb do
+    pipe_through :api
+
+    get "/users", UserController, :index
+    get "/users/:id", UserController, :show
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:be_exercise, :dev_routes) do

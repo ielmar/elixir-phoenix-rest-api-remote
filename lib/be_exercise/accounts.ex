@@ -7,6 +7,7 @@ defmodule BeExercise.Accounts do
   alias BeExercise.Repo
 
   alias BeExercise.Accounts.User
+  alias BeExercise.Finances.Salary
 
   @doc """
   Returns the list of users.
@@ -19,6 +20,42 @@ defmodule BeExercise.Accounts do
   """
   def list_users do
     Repo.all(User)
+  end
+
+  def get_users_with_active_salaries(filter_name \\ nil, order_by \\ nil) do
+    dynamic_order_by = if order_by == "name" do
+      String.to_atom("name")
+    else
+      String.to_atom("id")
+    end
+
+    active_subquery =
+      from s in Salary,
+      where: s.active == true,
+      select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+
+    active_subquery_single =
+      from s in Salary,
+      where: s.active == true,
+      select: %{user_id: s.user_id}
+
+    passive_subquery =
+      from s in Salary,
+      where: s.active == false and s.user_id not in subquery(active_subquery_single),
+      distinct: s.user_id,
+      select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+
+    query =
+      from u in User,
+      left_join: s in subquery(active_subquery),
+      on: u.id == s.user_id,
+      left_join: p in subquery(passive_subquery),
+      on: u.id == p.user_id,
+      where: fragment("LOWER(?) LIKE LOWER(?)", u.name, ^"%#{filter_name}%"),
+      order_by: [asc: ^dynamic_order_by],
+      select: %{user: u, salary: fragment("COALESCE(?, ?)", s.salary, p.salary), currency: fragment("COALESCE(?, ?)", s.currency, p.currency)}
+
+    Repo.all(query)
   end
 
   @doc """
