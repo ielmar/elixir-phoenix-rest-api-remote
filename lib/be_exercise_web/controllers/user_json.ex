@@ -3,8 +3,8 @@ defmodule BeExerciseWeb.UserJSON do
   @doc """
   Renders a list of users.
   """
-  def index(%{users: users}) do
-    %{data: for(user <- users, do: data(user))}
+  def index(%{users_with_salaries: users_with_salaries}) do
+    %{data: for(user <- users_with_salaries, do: data(user))}
   end
 
   @doc """
@@ -14,12 +14,13 @@ defmodule BeExerciseWeb.UserJSON do
     %{data: data(user)}
   end
 
-  defp data(%{user: user, active_salary: active_salary}) do
+  defp data(user) do
+    %{user: user_data} = user
     %{
-      id: user.id,
-      name: user.name,
-      salary: active_salary.amount,
-      currency: active_salary.currency
+      id: user_data.id,
+      name: user_data.name,
+      salary: user.salary,
+      currency: user.currency
     }
   end
 end
