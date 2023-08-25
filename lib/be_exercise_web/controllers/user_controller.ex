@@ -1,7 +1,6 @@
 defmodule BeExerciseWeb.UserController do
   use BeExerciseWeb, :controller
 
-  alias BeExercise.Repo
   alias BeExercise.Accounts
   alias BeExercise.Accounts.User
 
@@ -27,12 +26,8 @@ defmodule BeExerciseWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    case Repo.get(User, id) do
-      nil -> {:error, :not_found}
-      user -> {:ok, user}
-      render(conn, :show, user: user)
-    end
-
+    user = Accounts.get_user!(id)
+    render(conn, :show, user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
