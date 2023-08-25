@@ -8,6 +8,8 @@ defmodule BeExercise.Finances.Salary do
     field :currency, :string
     field :amount, :decimal
     belongs_to :user, User
+
+    timestamps()
   end
 
   @doc false
