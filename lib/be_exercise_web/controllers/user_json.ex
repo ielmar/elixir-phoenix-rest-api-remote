@@ -24,6 +24,9 @@ defmodule BeExerciseWeb.UserJSON do
     }
   end
 
+  @doc """
+  Renders :ok after emails are sent
+  """
   def emails_sent(_assigns) do
     :ok
   end
