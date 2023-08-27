@@ -26,6 +26,7 @@ defmodule BeExerciseWeb.Router do
 
     get "/users", UserController, :index
     get "/users/:id", UserController, :show
+    post "/users", UserController, :create
     post "/invite-users", UserController, :invite_users
   end
 
