@@ -28,6 +28,7 @@ defmodule BeExerciseWeb.Router do
     get "/users/:id", UserController, :show
     post "/users", UserController, :create
     put "/users", UserController, :update
+    delete "/users/:id", UserController, :delete
     post "/invite-users", UserController, :invite_users
   end
 
