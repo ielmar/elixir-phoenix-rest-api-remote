@@ -6,7 +6,7 @@ defmodule BeExerciseWeb.UserController do
   action_fallback BeExerciseWeb.FallbackController
 
   def index(conn, params) do
-    users_with_salaries = Accounts.get_users_list_with_salaries(params["filter"], params["order_by"], params["limit"], params["offset"])
+    users_with_salaries = Accounts.get_users_list_with_salaries(params["filter_name"], params["order_by"], params["limit"], params["offset"])
     render(conn, :index, users_with_salaries: users_with_salaries)
   end
 
