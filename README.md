@@ -78,6 +78,8 @@ Check out the `.tool-versions` file for a concrete version combination we ran th
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+## Endpoints
+
 - Run `curl -X GET http://localhost:4000/api/users` to get the list of users with active salaries. Last updated salary will be shown for users with no active salary. `filter_name`, `order_by`, `offset` and `limit` query params are supported. Default `limit` is 100. Default `order_by` is by id. Add `order_by=name` to order by name. Default offset is 0.
 - Run `curl -X GET http://localhost:4000/api/users/11312` to get the user with salaries for the given id. 
 - Run `curl -X POST http://localhost:4000/api/users -d '{"user":{"name":"Sanan"}}' -H 'Content-Type: application/json'` to add a new user name
