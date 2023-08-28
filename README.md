@@ -97,7 +97,6 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Implementation details
 
-This section is for you to fill in with any decisions you made that may be relevant. You can also change this README to fit your needs.
 The project can be extended to consider many more features. I have tried to keep it simple and focused on the requirements. Extra features can be added in the future. Some of the features that can be added are:
 - Authentication and authorization
 - Keeping log of emails sent in order to avoid sending duplicate emails
