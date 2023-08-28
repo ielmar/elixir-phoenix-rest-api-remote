@@ -18,7 +18,7 @@ defmodule BeExerciseWeb.SalaryJSON do
   defp data(%Salary{} = salary) do
     %{
       id: salary.id,
-      id: salary.id,
+      user_id: salary.user_id,
       amount: salary.amount,
       currency: salary.currency,
       active: salary.active
