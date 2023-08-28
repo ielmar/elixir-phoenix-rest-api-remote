@@ -14,13 +14,6 @@ defmodule BeExerciseWeb.UserJSON do
     %{data: data(user)}
   end
 
-  defp data(%{id: id, name: name}) do
-    %{
-      id: id,
-      name: name,
-    }
-  end
-
   defp data(%{id: id, name: name, salaries: salaries}) do
     %{
       id: id,
@@ -40,6 +33,12 @@ defmodule BeExerciseWeb.UserJSON do
     }
   end
 
+  defp data(%{id: id, name: name}) do
+    %{
+      id: id,
+      name: name,
+    }
+  end
   @doc """
   Renders :ok after emails are sent
   """
