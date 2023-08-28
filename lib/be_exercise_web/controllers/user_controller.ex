@@ -31,7 +31,6 @@ defmodule BeExerciseWeb.UserController do
       user_with_salaries = Repo.preload(user, :salaries)
       render(conn, :show, user: user_with_salaries)
     end
-
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

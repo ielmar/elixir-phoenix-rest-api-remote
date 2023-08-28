@@ -14,13 +14,10 @@ defmodule BeExerciseWeb.UserJSON do
     %{data: data(user)}
   end
 
-  defp data(%{id: id, name: name, salaries: salaries}) do
+  defp data(%{id: id, name: name}) do
     %{
       id: id,
       name: name,
-      salaries: Enum.map(salaries, fn salary ->
-        %{id: salary.id, active: salary.active, salary: salary.amount, currency: salary.currency}
-      end)
     }
   end
 
@@ -33,12 +30,16 @@ defmodule BeExerciseWeb.UserJSON do
     }
   end
 
-  defp data(%{id: id, name: name}) do
+  defp data(%{id: id, name: name, salaries: salaries}) do
     %{
       id: id,
       name: name,
+      salaries: Enum.map(salaries, fn salary ->
+        %{id: salary.id, active: salary.active, salary: salary.amount, currency: salary.currency}
+      end)
     }
   end
+
   @doc """
   Renders :ok after emails are sent
   """
