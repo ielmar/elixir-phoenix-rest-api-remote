@@ -24,8 +24,16 @@ defmodule BeExerciseWeb.Router do
   scope "/api", BeExerciseWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/salaries", SalaryController, except: [:new, :edit]
+    get "/users", UserController, :index
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    put "/users", UserController, :update
+    delete "/users/:id", UserController, :delete
+    get "/salaries", SalaryController, :index
+    get "/salaries/:id", SalaryController, :show
+    post "/salaries", SalaryController, :create
+    put "/salaries", SalaryController, :update
+    delete "/salaries/:id", SalaryController, :delete
     post "/invite-users", UserController, :invite_users
   end
 
