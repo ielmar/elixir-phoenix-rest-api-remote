@@ -15,7 +15,7 @@ defmodule BeExercise.Finances.Salary do
   @doc false
   def changeset(salary, attrs) do
     salary
-    |> cast(attrs, [:amount, :currency, :active])
-    |> validate_required([:user, :amount, :currency, :active])
+    |> cast(attrs, [:user_id, :amount, :currency, :active])
+    |> validate_required([:user_id, :amount, :currency, :active])
   end
 end
