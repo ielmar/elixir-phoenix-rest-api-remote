@@ -21,6 +21,15 @@ defmodule BeExerciseWeb.UserJSON do
     }
   end
 
+  defp data(%{user: user, salary: salary, currency: currency}) do
+    %{
+      id: user.id,
+      name: user.name,
+      salary: salary,
+      currency: currency
+    }
+  end
+
   defp data(%{id: id, name: name, salaries: salaries}) do
     %{
       id: id,
@@ -28,15 +37,6 @@ defmodule BeExerciseWeb.UserJSON do
       salaries: Enum.map(salaries, fn salary ->
         %{id: salary.id, active: salary.active, salary: salary.amount, currency: salary.currency}
       end)
-    }
-  end
-
-  defp data(%{user: user, salary: salary, currency: currency}) do
-    %{
-      id: user.id,
-      name: user.name,
-      salary: salary,
-      currency: currency
     }
   end
 
