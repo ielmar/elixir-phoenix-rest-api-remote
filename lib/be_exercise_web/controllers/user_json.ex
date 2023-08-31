@@ -1,5 +1,4 @@
 defmodule BeExerciseWeb.UserJSON do
-
   @doc """
   Renders a list of users.
   """
@@ -27,17 +26,23 @@ defmodule BeExerciseWeb.UserJSON do
     %{
       id: id,
       name: name,
-      salaries: Enum.map(salaries, fn salary ->
-        %{id: salary.id, active: salary.active, salary: salary.amount, currency: salary.currency}
-      end)
+      salaries:
+        Enum.map(salaries, fn salary ->
+          %{
+            id: salary.id,
+            active: salary.active,
+            salary: salary.amount,
+            currency: salary.currency
+          }
+        end)
     }
   end
 
-  defp data(%{id: id, name: name}) do
-    %{
-      id: id,
-      name: name,
-    }
+  @doc """
+  Renders :ok after user is created
+  """
+  def show_ok(_assigns) do
+    :ok
   end
 
   @doc """
