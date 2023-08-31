@@ -5,6 +5,8 @@ defmodule BeExercise.Accounts.User do
   schema "users" do
     field :name, :string
     has_many :salaries, BeExercise.Finances.Salary
+
+    timestamps()
   end
 
   @doc false
