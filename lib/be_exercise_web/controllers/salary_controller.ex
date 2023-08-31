@@ -1,8 +1,8 @@
 defmodule BeExerciseWeb.SalaryController do
   use BeExerciseWeb, :controller
 
-  alias BeExercise.Finances
-  alias BeExercise.Finances.Salary
+  import Ecto.Query, warn: false
+  alias BeExercise.{Repo, Finances, Finances.Salary, Accounts.User}
 
   action_fallback BeExerciseWeb.FallbackController
 
@@ -12,6 +12,18 @@ defmodule BeExerciseWeb.SalaryController do
   end
 
   def create(conn, %{"salary" => salary_params}) do
+    if salary_params["active"] do
+      %{"user_id" => user_id} = salary_params
+
+      set_active_salaries_to_false_query =
+        from s in Salary,
+          where: s.user_id == ^user_id and s.active == true
+
+      Repo.update_all(set_active_salaries_to_false_query,
+        set: [active: false]
+      )
+    end
+
     with {:ok, %Salary{} = salary} <- Finances.create_salary(salary_params) do
       conn
       |> put_status(:created)
