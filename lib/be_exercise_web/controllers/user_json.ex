@@ -14,13 +14,36 @@ defmodule BeExerciseWeb.UserJSON do
     %{data: data(user)}
   end
 
-  defp data(user) do
-    %{user: user_data} = user
+  defp data(%{id: id, name: name}) do
     %{
-      id: user_data.id,
-      name: user_data.name,
-      salary: user.salary,
-      currency: user.currency
+      id: id,
+      name: name,
     }
+  end
+
+  defp data(%{user: user, salary: salary, currency: currency}) do
+    %{
+      id: user.id,
+      name: user.name,
+      salary: salary,
+      currency: currency
+    }
+  end
+
+  defp data(%{id: id, name: name, salaries: salaries}) do
+    %{
+      id: id,
+      name: name,
+      salaries: Enum.map(salaries, fn salary ->
+        %{id: salary.id, active: salary.active, salary: salary.amount, currency: salary.currency}
+      end)
+    }
+  end
+
+  @doc """
+  Renders :ok after emails are sent
+  """
+  def emails_sent(_assigns) do
+    :ok
   end
 end

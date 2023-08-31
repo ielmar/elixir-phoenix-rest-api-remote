@@ -22,38 +22,97 @@ defmodule BeExercise.Accounts do
     Repo.all(User)
   end
 
-  def get_users_with_active_salaries(filter_name \\ nil, order_by \\ nil) do
-    dynamic_order_by = if order_by == "name" do
-      String.to_atom("name")
-    else
-      String.to_atom("id")
-    end
+  @doc """
+  Returns the list of users with active salaries.
 
+  ## Examples
+
+      iex> get_users_with_active_salaries()
+      [%{user_id: 1, salary: 1000, currency: "USD"}, ...]
+
+  """
+  def get_users_with_active_salaries do
     active_subquery =
       from s in Salary,
-      where: s.active == true,
-      select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
-
-    active_subquery_single =
-      from s in Salary,
-      where: s.active == true,
-      select: %{user_id: s.user_id}
-
-    passive_subquery =
-      from s in Salary,
-      where: s.active == false and s.user_id not in subquery(active_subquery_single),
-      distinct: s.user_id,
-      select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+        where: s.active == true,
+        select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
 
     query =
       from u in User,
-      left_join: s in subquery(active_subquery),
-      on: u.id == s.user_id,
-      left_join: p in subquery(passive_subquery),
-      on: u.id == p.user_id,
-      where: fragment("LOWER(?) LIKE LOWER(?)", u.name, ^"%#{filter_name}%"),
-      order_by: [asc: ^dynamic_order_by],
-      select: %{user: u, salary: fragment("COALESCE(?, ?)", s.salary, p.salary), currency: fragment("COALESCE(?, ?)", s.currency, p.currency)}
+        left_join: s in subquery(active_subquery),
+        on: u.id == s.user_id,
+        order_by: [asc: :id],
+        select: %{user: u, salary: s.salary, currency: s.currency}
+
+    Repo.all(query)
+  end
+
+  @doc """
+  Returns the list of users with salaries.
+
+  ## Examples
+
+      iex> get_users_list_with_salaries()
+      [%{user: %User{}, salary: 1000, currency: "USD"}, ...]
+  """
+  def get_users_list_with_salaries(
+        filter_name \\ nil,
+        order_by \\ nil,
+        limit \\ nil,
+        offset \\ nil
+      ) do
+    dynamic_order_by =
+      if order_by == "name" do
+        String.to_atom("name")
+      else
+        String.to_atom("id")
+      end
+
+    limit =
+      if limit == nil do
+        100
+      else
+        String.to_integer(limit)
+      end
+
+    offset =
+      if offset == nil do
+        0
+      else
+        String.to_integer(offset)
+      end
+
+    active_subquery =
+      from s in Salary,
+        where: s.active == true,
+        select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+
+    active_subquery_single =
+      from s in Salary,
+        where: s.active == true,
+        select: %{user_id: s.user_id}
+
+    passive_subquery =
+      from s in Salary,
+        where: s.active == false and s.user_id not in subquery(active_subquery_single),
+        distinct: s.user_id,
+        select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
+
+    query =
+      from u in User,
+        left_join: s in subquery(active_subquery),
+        on: u.id == s.user_id,
+        left_join: p in subquery(passive_subquery),
+        on: u.id == p.user_id,
+        where: fragment("LOWER(?) LIKE LOWER(?)", u.name, ^"%#{filter_name}%"),
+        order_by: [asc: ^dynamic_order_by],
+        select: %{
+          user: u,
+          salary: fragment("COALESCE(?, ?)", s.salary, p.salary),
+          currency: fragment("COALESCE(?, ?)", s.currency, p.currency)
+        },
+        limit: ^limit,
+        offset: ^offset
 
     Repo.all(query)
   end

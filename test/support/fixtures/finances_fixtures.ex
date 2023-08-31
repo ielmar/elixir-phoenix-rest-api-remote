@@ -19,4 +19,21 @@ defmodule BeExercise.FinancesFixtures do
 
     salary
   end
+
+  @doc """
+  Generate a salary.
+  """
+  def salary_fixture(attrs \\ %{}) do
+    {:ok, salary} =
+      attrs
+      |> Enum.into(%{
+        active: true,
+        id: 42,
+        currency: "some currency",
+        amount: "120.5"
+      })
+      |> BeExercise.Finances.create_salary()
+
+    salary
+  end
 end
