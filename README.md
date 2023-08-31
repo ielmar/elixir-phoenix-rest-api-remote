@@ -81,14 +81,14 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## Endpoints
 
 - Run `curl -X GET http://localhost:4000/api/users` to get the list of users with active salaries. Last updated salary will be shown for users with no active salary. `filter_name`, `order_by`, `offset` and `limit` query params are supported. Default `limit` is 100. Default `order_by` is by id. Add `order_by=name` to order by name. Default offset is 0.
-- Run ` ` to get the user with salaries for the given id. 
+- Run `curl -X GET http://localhost:4000/api/users/11319` to get the user with salaries for the given id. 
 - Run `curl -X POST http://localhost:4000/api/users -d '{"user":{"name":"Sanan"}}' -H 'Content-Type: application/json'` to add a new user name
 - Run `curl -X PUT http://localhost:4000/api/users -d '{"id":11312, "user":{"name":"Hakan"}}' -H 'Content-Type: application/json'` to update user name for the given id
 - Run `curl -X DELETE http://localhost:4000/api/users/11312` to delete user for the given id
 - Run `curl -X POST http://localhost:4000/api/invite-users` to send email to all users with active salaries
 - Run `curl -X GET http://localhost:4000/api/salaries` to get the list of salaries. 
 - Run `curl -X GET http://localhost:4000/api/salaries/11312` to get the salary for the given id.
-- Run `curl -X POST http://localhost:4000/api/salaries -d '{"salary":{"user_id":11312, "amount": 1000, "currency": "USD"}}' -H 'Content-Type: application/json'` to add a new salary for the given user id
+- Run `curl -X POST http://localhost:4000/api/salaries -d '{"salary":{"user_id":11312, "amount": 1000, "currency": "USD"}}' -H 'Content-Type: application/json'` to add a new salary for the given user id. If active value is provided, it will be set to true and will set previous active salary to false. Otherwise, it will be set to false.
 - Run `curl -X PUT http://localhost:4000/api/salaries -d '{"id":11312, "salary":{"amount": 2000, "currency": "USD"}}' -H 'Content-Type: application/json'` to update salary for the given id
 - Run `curl -X DELETE http://localhost:4000/api/salaries/11312` to delete salary for the given id
 
@@ -101,3 +101,4 @@ The project can be extended to consider many more features. I have tried to keep
 - Authentication and authorization
 - Keeping log of emails sent in order to avoid sending duplicate emails
 - Analytics to get information about emails sent
+- Statistics about users and salaries
