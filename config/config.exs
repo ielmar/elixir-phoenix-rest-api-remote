@@ -10,6 +10,8 @@ import Config
 config :be_exercise,
   ecto_repos: [BeExercise.Repo]
 
+config :be_exercise, :env, Mix.env()
+
 # Configures the endpoint
 config :be_exercise, BeExerciseWeb.Endpoint,
   url: [host: "localhost"],
