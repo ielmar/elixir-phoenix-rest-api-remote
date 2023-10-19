@@ -2,7 +2,7 @@ defmodule BeExerciseWeb.SalaryController do
   use BeExerciseWeb, :controller
 
   import Ecto.Query, warn: false
-  alias BeExercise.{Repo, Finances, Finances.Salary, Accounts.User}
+  alias BeExercise.{Repo, Finances, Finances.Salary}
 
   action_fallback BeExerciseWeb.FallbackController
 

@@ -17,10 +17,8 @@ defmodule BeExerciseWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> render(:show, user: user)
+    with {:ok, _user} <- Accounts.create_user(user_params) do
+      render(conn, :show_ok)
     end
   end
 
