@@ -12,6 +12,5 @@ defmodule BeExercise.Repo.Migrations.CreateSalaries do
     end
 
     create index(:salaries, [:user_id])
-
   end
 end
