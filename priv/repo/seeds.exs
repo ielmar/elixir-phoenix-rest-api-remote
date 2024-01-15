@@ -23,13 +23,21 @@ currencies_data = ["USD", "EUR", "JPY", "GBP", "CAD", "AUD", "CHF", "CNY", "SEK"
 names = BEChallengex.list_names()
 
 Enum.map(1..feed_count, fn _ ->
-  user = User.changeset(%User{}, %{name: Enum.random(names)})
+  user =
+    User.changeset(%User{}, %{name: Enum.random(names)})
+    |> Repo.insert!()
+
+  Ecto.build_assoc(user, :salaries, %{
+    amount: Enum.random(1000..10000),
+    currency: Enum.random(currencies_data),
+    active: false
+  })
   |> Repo.insert!()
 
-  Ecto.build_assoc(user, :salaries, %{amount: Enum.random(1000..10000), currency: Enum.random(currencies_data), active: false})
+  Ecto.build_assoc(user, :salaries, %{
+    amount: Enum.random(1000..10000),
+    currency: Enum.random(currencies_data),
+    active: Enum.random([true, false])
+  })
   |> Repo.insert!()
-
-  Ecto.build_assoc(user, :salaries, %{amount: Enum.random(1000..10000), currency: Enum.random(currencies_data), active: Enum.random([true, false])})
-  |> Repo.insert!()
-
 end)
