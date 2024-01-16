@@ -8,8 +8,7 @@ config :be_exercise, BeExercise.Repo,
   database: System.get_env("DB_NAME"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10,
-  ssl: true
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

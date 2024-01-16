@@ -94,8 +94,10 @@ defmodule BeExercise.Accounts do
 
     passive_subquery =
       from s in Salary,
-        where: s.active == false and s.user_id not in subquery(active_subquery_single),
+        where: s.user_id not in subquery(active_subquery_single),
         distinct: s.user_id,
+        group_by: [s.user_id, s.amount, s.currency, s.updated_at],
+        order_by: [desc: s.updated_at],
         select: %{user_id: s.user_id, salary: s.amount, currency: s.currency}
 
     query =
@@ -104,7 +106,7 @@ defmodule BeExercise.Accounts do
         on: u.id == s.user_id,
         left_join: p in subquery(passive_subquery),
         on: u.id == p.user_id,
-        where: fragment("LOWER(?) LIKE LOWER(?)", u.name, ^"%#{filter_name}%"),
+        where: ilike(u.name, ^"%#{filter_name}%"),
         order_by: [asc: ^dynamic_order_by],
         select: %{
           user: u,
