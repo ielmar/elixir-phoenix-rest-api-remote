@@ -3,6 +3,8 @@ defmodule BeExerciseWeb.UserController do
 
   alias BeExercise.{Repo, Accounts, Accounts.User}
 
+  require Logger
+
   action_fallback BeExerciseWeb.FallbackController
 
   def index(conn, params) do
@@ -20,12 +22,15 @@ defmodule BeExerciseWeb.UserController do
   def invite_users(conn, _params) do
     users_with_active_salaries = Accounts.get_users_with_active_salaries()
 
-    for(
-      %{user: user} <- users_with_active_salaries,
-      do: BEChallengex.send_email(%{name: user.name})
-    )
+    successful_emails =
+      Enum.reduce(users_with_active_salaries, 0, fn (%{user: user}, acc) ->
+        case BEChallengex.send_email(%{name: user.name}) do
+          {:ok, _name} -> acc + 1
+          {:error, :econnrefused} -> Logger.error("There was an error sending email to #{user.name}")
+        end
+      end)
 
-    render(conn, :emails_sent)
+    render(conn, :emails_sent, emails_sent: successful_emails)
   end
 
   def create(conn, %{"user" => user_params}) do
