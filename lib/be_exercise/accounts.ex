@@ -39,7 +39,7 @@ defmodule BeExercise.Accounts do
 
     query =
       from u in User,
-        left_join: s in subquery(active_subquery),
+        join: s in subquery(active_subquery),
         on: u.id == s.user_id,
         order_by: [asc: :id],
         select: %{user: u, salary: s.salary, currency: s.currency}
